@@ -25,18 +25,18 @@
             <ColumnDefinition Width="{StaticResource width}" />
             <ColumnDefinition Width="{StaticResource width}" />
         </Grid.ColumnDefinitions>
-        <local:Tile Grid.Row="0" Grid.Column="0" x:Name="tile_0_0" DataContext="{Binding OwaleBoard[0]}"></local:Tile>
-        <local:Tile Grid.Row="0" Grid.Column="1" x:Name="tile_0_1" DataContext="{Binding OwaleBoard[1]}"></local:Tile>
-        <local:Tile Grid.Row="0" Grid.Column="2" x:Name="tile_0_2" DataContext="{Binding OwaleBoard[2]}"></local:Tile>
-        <local:Tile Grid.Row="0" Grid.Column="3" x:Name="tile_0_3" DataContext="{Binding OwaleBoard[3]}"></local:Tile>
-        <local:Tile Grid.Row="0" Grid.Column="4" x:Name="tile_0_4" DataContext="{Binding OwaleBoard[4]}"></local:Tile>
-        <local:Tile Grid.Row="0" Grid.Column="5" x:Name="tile_0_5" DataContext="{Binding OwaleBoard[5]}"></local:Tile>
+        <local:Tile Grid.Row="0" Grid.Column="0" x:Name="tile_0_0" DataContext="{Binding OwaleBoard[11]}"></local:Tile>
+        <local:Tile Grid.Row="0" Grid.Column="1" x:Name="tile_0_1" DataContext="{Binding OwaleBoard[10]}"></local:Tile>
+        <local:Tile Grid.Row="0" Grid.Column="2" x:Name="tile_0_2" DataContext="{Binding OwaleBoard[9]}"></local:Tile>
+        <local:Tile Grid.Row="0" Grid.Column="3" x:Name="tile_0_3" DataContext="{Binding OwaleBoard[8]}"></local:Tile>
+        <local:Tile Grid.Row="0" Grid.Column="4" x:Name="tile_0_4" DataContext="{Binding OwaleBoard[7]}"></local:Tile>
+        <local:Tile Grid.Row="0" Grid.Column="5" x:Name="tile_0_5" DataContext="{Binding OwaleBoard[6]}"></local:Tile>
 
-        <local:Tile Grid.Row="1" Grid.Column="0" x:Name="tile_1_0" DataContext="{Binding OwaleBoard[6]}"></local:Tile>
-        <local:Tile Grid.Row="1" Grid.Column="1" x:Name="tile_1_1" DataContext="{Binding OwaleBoard[7]}"></local:Tile>
-        <local:Tile Grid.Row="1" Grid.Column="2" x:Name="tile_1_2" DataContext="{Binding OwaleBoard[8]}"></local:Tile>
-        <local:Tile Grid.Row="1" Grid.Column="3" x:Name="tile_1_3" DataContext="{Binding OwaleBoard[9]}"></local:Tile>
-        <local:Tile Grid.Row="1" Grid.Column="4" x:Name="tile_1_4" DataContext="{Binding OwaleBoard[10]}"></local:Tile>
-        <local:Tile Grid.Row="1" Grid.Column="5" x:Name="tile_1_5" DataContext="{Binding OwaleBoard[11]}"></local:Tile>
+        <local:Tile Grid.Row="1" Grid.Column="0" x:Name="tile_1_0" DataContext="{Binding OwaleBoard[0]}"></local:Tile>
+        <local:Tile Grid.Row="1" Grid.Column="1" x:Name="tile_1_1" DataContext="{Binding OwaleBoard[1]}"></local:Tile>
+        <local:Tile Grid.Row="1" Grid.Column="2" x:Name="tile_1_2" DataContext="{Binding OwaleBoard[2]}"></local:Tile>
+        <local:Tile Grid.Row="1" Grid.Column="3" x:Name="tile_1_3" DataContext="{Binding OwaleBoard[3]}"></local:Tile>
+        <local:Tile Grid.Row="1" Grid.Column="4" x:Name="tile_1_4" DataContext="{Binding OwaleBoard[4]}"></local:Tile>
+        <local:Tile Grid.Row="1" Grid.Column="5" x:Name="tile_1_5" DataContext="{Binding OwaleBoard[5]}"></local:Tile>
     </Grid>
 </UserControl>

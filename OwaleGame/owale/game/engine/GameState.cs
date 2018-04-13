@@ -13,6 +13,8 @@ namespace OwaleGame.owale.game.engine
 
         static int TILE_STARTING_SEEDS_NUMBER = 4;
 
+        static int TURN = 1;
+
         enum RULES : int
         {
             PLAYER_MAX_SEEDS = 25,
@@ -71,77 +73,176 @@ namespace OwaleGame.owale.game.engine
         }
 
         // - Récupérer les graines a un emplacement <t> et les ditribué jusqu'à l'emplacement <t> + <nb seeds> à partir de <t + 1>
-        public void sow(int startPosition)
+        // retourne le score de l'action
+        public int sow(int startPosition)
         {
-            // Objet move action (int start, seeds)
-            Console.WriteLine("selected house position : {0}\n", startPosition);
 
+            int score = 0;
 
-            int selectedHouseSeeds = OwaleBoard.Where(tile => tile.Id == startPosition).Select(tile=> tile.Seeds).Single();
-            Console.WriteLine("selected house seed : {0}\n", selectedHouseSeeds);
-            // si nextPosition = 12 skipper le tile startposition
-            // End P2 -> return P1 START
-            // End P1 -> return P2 Start
+            Console.WriteLine("> TURN {0} <\n", TURN);
+            TURN++;
 
+            int selectedHouseSeeds = OwaleBoard.Where(tile => tile.Id == startPosition).Select(tile => tile.Seeds).Single();
             int nextPosition = startPosition + selectedHouseSeeds;
-            Console.WriteLine("next position : {0}\n", nextPosition);
+
+
+            // Remove seed from house
+            GameTile startingTile = OwaleBoard.FirstOrDefault(t => t.Id == startPosition);
+            startingTile.Seeds = 0;
+
+            Console.WriteLine("selected house : [position : {0} | seeds : {1} | next position : {2} ]\n", startPosition, selectedHouseSeeds, nextPosition);
 
             List<GameTile> modifiedTiles = new List<GameTile>();
+            List<GameTile> newTiles = new List<GameTile>();
 
-            if ( nextPosition <= 12 )
+            if ( selectedHouseSeeds < 12 )
             {
+
                 //Tiles on wich player has sown some seeds
                 modifiedTiles = OwaleBoard.Where(tile => tile.Id <= nextPosition && tile.Id > startPosition).ToList();
-
-                // Adding seeds 
-
-                foreach (GameTile tile in OwaleBoard)
-                {
-                    int seeds = OwaleBoard.Where(t => t.Id == tile.Id).First().Seeds;
-
-                    OwaleBoard.Where(t => t.Id == tile.Id).First().Seeds = seeds + tile.Seeds;
-                }
-
-               
-                //calculate point
-
-                modifiedTiles.Reverse();
-                Console.WriteLine("Modified tiles : ");  
+                Console.WriteLine("Targeted Tiles : ");
                 foreach (GameTile tile in modifiedTiles)
                 {
                     Console.WriteLine("-> " + tile);
                 }
-                Console.WriteLine("---------------------");
+                Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++\n\n");
 
-                foreach (GameTile tile in modifiedTiles)
+                // Adding seeds 
+                foreach (GameTile tile in OwaleBoard)
                 {
-                    if ( tile.Seeds >= (int)RULES.ALLOW_CAPTURE_SEED_MIN && tile.Seeds <= (int)RULES.ALLOW_CAPTURE_SEED_MAX)
+
+                    foreach (GameTile modTile in modifiedTiles)
                     {
-                        Console.WriteLine(">" + tile);
+
+                        if (tile.Id == modTile.Id)
+                        {
+                            Console.WriteLine("Adding seed to house {0} : \n", tile.Id);
+                            tile.Seeds = modTile.Seeds + 1;
+                            modTile.Seeds = tile.Seeds;
+                            Console.WriteLine("--> " + tile + "\n");
+                        }
+
                     }
                 }
 
+                // Case > gametile array size
+                if (nextPosition >= 12)
+                {
+                    int remainingTiles = nextPosition - 12;
+                    Console.WriteLine("Remaining tile : {0}\n", remainingTiles);
+
+                    for (int i = 0; i < remainingTiles; i++)
+                    {
+                        modifiedTiles.Add(OwaleBoard[i]);
+                        Console.WriteLine("Adding seed to house {0} : \n", OwaleBoard[i].Id);
+                        OwaleBoard[i].Seeds = OwaleBoard[i].Seeds + 1;
+                        modifiedTiles.Last().Seeds = OwaleBoard[i].Seeds;
+                        Console.WriteLine("--> " + OwaleBoard[i] + "\n");
+                        Console.WriteLine("******> " + modifiedTiles.Last().Seeds + "\n");
+                    }
+
+                }
+
+
+
+
+                //calculate point
+
+                modifiedTiles.Reverse();
+
+                
+
+                foreach (GameTile tile in modifiedTiles)
+                {
+
+                    if (tile.Seeds <= (int)RULES.ALLOW_CAPTURE_SEED_MAX && tile.Seeds >= (int)RULES.ALLOW_CAPTURE_SEED_MIN)
+                    {
+                        Console.WriteLine("add score > " + tile.Seeds);
+                        score += tile.Seeds;
+                        //remove seeds :
+                        tile.Seeds = 0;
+                    } else
+                    {
+                        Console.WriteLine("seeds > 3 or < 2");
+                        Console.WriteLine("score : {0}", score);
+                        break;
+                    }
+
+                }
+                Console.WriteLine("---------------------");
+
+              
+
+            } else
+            {
+
+                Console.WriteLine("seeds > 13");
+
+                int position = startPosition - 1;
+
+                while ( selectedHouseSeeds != 0 )
+                {
+                    if ( position == startPosition)
+                    { // starting tile
+                        if ( position == 11 )
+                        {
+                            position = 0;
+                        }
+
+                        modifiedTiles.Add(OwaleBoard[position]);
+
+                    } else if ( position == 11 ) { // [12]
+                        OwaleBoard[position].Seeds += 1;
+                        selectedHouseSeeds--;
+                        position = 0;
+
+                        modifiedTiles.Add(OwaleBoard[position]);
+
+                    } else
+                    { // [1 -> 11]
+                        OwaleBoard[position].Seeds += 1;
+                        selectedHouseSeeds--;
+
+                        modifiedTiles.Add(OwaleBoard[position]);
+                    }
+                }
+
+                Console.WriteLine("Targeted Tiles : ");
+                foreach (GameTile tile in modifiedTiles)
+                {
+                    Console.WriteLine("-> " + tile);
+                }
+                Console.WriteLine("+++++++++++++++++++++++++++++++++++++++++\n\n");
+
+                //calculate point
+
+                modifiedTiles.Reverse();
+
+                foreach (GameTile tile in modifiedTiles)
+                {
+
+                    if (tile.Seeds <= (int)RULES.ALLOW_CAPTURE_SEED_MAX && tile.Seeds >= (int)RULES.ALLOW_CAPTURE_SEED_MIN)
+                    {
+                        Console.WriteLine("add score > " + tile.Seeds);
+                        score += tile.Seeds;
+                        //remove seeds :
+                        tile.Seeds = 0;
+                    }
+                    else
+                    {
+                        Console.WriteLine("seeds > 3 or < 2");
+                        Console.WriteLine("score : {0}", score);
+                        break;
+                    }
+
+                }
+                Console.WriteLine("---------------------");
+
+
             }
 
 
-
-            //List<GameTile> result = OwaleBoard.Where(tile => tile.Id <= nextPosition && tile.Id > startPosition).ToList();
-
-            //recursivité startposition
-            /*int remainder = 0;
-
-            if ( result.Any(tile => tile.Type == TileTypeEnum.tileType.END_TILE_PLAYER_2) ) {
-                remainder = nextPosition - result.Last().Id;
-                Console.WriteLine("remainder : {0}\n", remainder);
-            }
-
-            Console.WriteLine("Case atteignable :");
-            foreach (GameTile tile in result) {
-                Console.WriteLine(tile);
-            }
-            Console.WriteLine("---------------------");
-            */
-
+            return score;
 
 
         }
@@ -149,13 +250,15 @@ namespace OwaleGame.owale.game.engine
 
         public override string ToString()
         {
-            string s = "Board state :\n" + 
+            string s = "++++++++++++++++\n" + "+ Board state : \n" + 
                        "++++++++++++++++\n";
 
             foreach (GameTile tile in OwaleBoard)
             {
-                s += "\n" + tile.ToString();
+                s += tile.ToString() + "\n";
             }
+
+            s += "_________________________________\n";
 
             return s;
         }
