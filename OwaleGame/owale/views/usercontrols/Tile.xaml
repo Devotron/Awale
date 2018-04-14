@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:OwaleGame.owale.views.usercontrols"
              xmlns:font="clr-namespace:OwaleGame.owale.views"
              mc:Ignorable="d" 
-             d:DesignHeight="150" d:DesignWidth="150">
+             d:DesignHeight="150" d:DesignWidth="150" MouseLeftButtonDown="UserControl_MouseLeftButtonDown">
 
     <UserControl.Resources>
          <Style x:Key="CustomFont">

@@ -21,25 +21,30 @@ namespace OwaleGame
     /// </summary>
     public partial class MainWindow : Window
     {
-        GameState game;
+        GameBoard game;
 
         public MainWindow()
         {
             
             InitializeComponent();
 
-            game = new GameState();
-            Console.WriteLine(game.ToString() + "\n");
+            //game = new GameState();
+            game = new GameBoard();
 
-            game.OwaleBoard[9].Seeds = 13;
+            Console.WriteLine(game.GameState.ToString() + "\n");
+
+           /* game.OwaleBoard[9].Seeds = 13;
             game.OwaleBoard[1].Seeds = 1;
             game.OwaleBoard[0].Seeds = 2;
             game.OwaleBoard[2].Seeds = 1;
-            
-            game.sow(10);
+            */
+
+            //game.sow(10);
 
             this.DataContext = game;
 
         }
+
+       
     }
 }

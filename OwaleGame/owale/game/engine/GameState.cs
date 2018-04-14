@@ -176,13 +176,13 @@ namespace OwaleGame.owale.game.engine
             } else
             {
 
-                Console.WriteLine("seeds > 13");
+                Console.WriteLine("seeds > 12");
 
                 int position = startPosition - 1;
 
                 while ( selectedHouseSeeds != 0 )
                 {
-                    if ( position == startPosition)
+                    if ( position == (startPosition -1))
                     { // starting tile
                         Console.WriteLine("cas A");
                         if ( position == 11 )
@@ -197,9 +197,8 @@ namespace OwaleGame.owale.game.engine
                         Console.WriteLine("cas B");
                         OwaleBoard[position].Seeds += 1;
                         selectedHouseSeeds--;
-                        position = 0;
-
                         modifiedTiles.Add(OwaleBoard[position]);
+                        position = 0;
 
                     } else
                     { // [1 -> 11]

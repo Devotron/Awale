@@ -83,6 +83,7 @@
     <Compile Include="owale\game\engine\GameState.cs" />
     <Compile Include="owale\game\engine\GameTile.cs" />
     <Compile Include="owale\game\engine\Player.cs" />
+    <Compile Include="owale\game\engine\TileID.cs" />
     <Compile Include="owale\game\engine\TileTypeEnum.cs" />
     <Compile Include="owale\game\history\GameHistory.cs" />
     <Compile Include="owale\game\history\HistoryEntry.cs" />
